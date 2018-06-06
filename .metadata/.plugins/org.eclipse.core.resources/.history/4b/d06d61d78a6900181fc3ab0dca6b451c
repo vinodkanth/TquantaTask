@@ -1,0 +1,105 @@
+package userBobby;
+import java.io.*;
+import java.sql.*;
+import java.util.*;
+
+import org.apache.poi.ss.examples.CellStyleDetails;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.*;
+public class Sample1
+{
+	public static void main(String[] args)
+	{
+		Scanner sc=new Scanner(System.in);
+		System.out.println("1.upload Excel file \nEnter your choice:");
+		int choice=sc.nextInt();
+		switch(choice)
+		{
+		case 1:
+			System.out.println("Enter the FilePath");
+			String sPath=sc.next();
+			break;
+			
+		case 2:
+			Write2Excel();
+			break;
+		default:
+			System.out.println("Wrong Input:");
+		}
+	}
+	public static void ReadExcel(String fPath)
+	{
+		try
+		{
+			Workbook workbook=WorkbookFactory.create(new File(fPath));
+			DataFormatter dataformatter=new DataFormatter();
+			Sheet sheet=workbook.getSheetAt(0);
+			sheet.forEach(row ->
+			{
+				int i=0;
+				String[] items=new String[5];
+				for(Cell cell: row)
+				{
+					String cellValue=dataformatter.formatCellValue(cell);
+					items[i]=cellValue;
+					//System.out.print(cellValue+"\t");
+					i++;
+			
+				
+				};
+				//System.out.println();
+				DBOperations.InsertData(items[0],items[1],items[2],items[3]);
+			});
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+	}
+	public static void Write2Excel()
+	{
+		String[] columns= {"SNO", "NAME", "FatherName","Mobile"};
+		
+		try
+		{
+			ResultSet rs=DBOperations.GetData();
+			Workbook workbook=new XSSFWorkbook();
+			CreationHelper createHelper=workbook.getCreationHelper();
+			Sheet sheet=workbook.createSheet("Employee");
+			
+			//Create a font for styling header
+			
+			Font headerFont=workbook.createFont();
+			headerFont.setBold(true);
+			headerFont.setFontHeightInPoints((short)14);
+			headerFont.setColor(IndexedColors.RED.getIndex());
+			
+			//Create a cellStyle with the font
+			
+			CellStyle headerCellStyle=workbook.createCellStyle();
+			headerCellStyle.setFont(headerFont);
+			
+			//Create a row
+			
+			Row headerRow=sheet.createRow(0);
+			
+			//Create cells
+			
+			for(int i=0; i<columns.length; i++)
+			{
+				Cell cell=headerRow.createCell(i);
+				cell.setCellValue(columns[i]);
+				cell.setCellStyle(headerCellStyle);
+			}
+			int rowNum=1;
+			while(rs.next())
+			{
+				Row row=sheet.createRow(rowNum++);
+				
+				
+						
+						
+			}
+		}
+	}
+}

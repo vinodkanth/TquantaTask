@@ -1,0 +1,12 @@
+package userBobby;
+
+public class ExcelRead
+{
+	public static void main(String[] args)
+	{
+		String excelFilePath="C:\\Users\\Vijayakanth Bayi\\Documents\\Tquanta Office\\Datails.xlsx";
+		
+		FileInputStream inputstream=new FileInputStream(new File(excelFilePath));
+		
+	}
+}

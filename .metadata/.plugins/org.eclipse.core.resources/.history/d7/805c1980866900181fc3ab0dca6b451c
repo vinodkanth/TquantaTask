@@ -1,0 +1,29 @@
+package userBobby;
+import java.io.*;
+import java.sql.*;
+import java.util.*;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.*;
+public class Sample1
+{
+	public static void main(String[] args)
+	{
+		Scanner sc=new Scanner(System.in);
+		System.out.println("1.upload Excel file \nEnter your choice:");
+		int choice=sc.nextInt();
+		switch(choice)
+		{
+		case 1:
+			System.out.println("Enter the FilePath");
+			String sPath=sc.next();
+			break;
+			
+		case 2:
+			WriteExcel();
+			break;
+		default:
+			System.out.println("Wrong Input:");
+		}
+	}
+
+}
